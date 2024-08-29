@@ -48,8 +48,9 @@ def get_all_quotes() -> list[Quote]:
 
 def write_quotes_to_csv(quotes: list[Quote], output_csv_path: str) -> None:
     with open(output_csv_path, "w", encoding="utf-8") as file:
-        write = csv.writer(file)
-        write.writerows([astuple(quote) for quote in quotes])
+        writer = csv.writer(file)
+        writer.writerow(["text", "author", "tags"])
+        writer.writerows([quote.__dict__.items() for quote in quotes])
 
 
 def main(output_csv_path: str) -> None:
