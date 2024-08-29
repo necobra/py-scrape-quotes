@@ -50,7 +50,9 @@ def write_quotes_to_csv(quotes: list[Quote], output_csv_path: str) -> None:
     with open(output_csv_path, "w", encoding="utf-8") as file:
         writer = csv.writer(file)
         writer.writerow(["text", "author", "tags"])
-        writer.writerows([quote.__dict__.items() for quote in quotes])
+        for quote in quotes:
+            tags_str = str(quote.tags).replace('"', "'")
+            writer.writerow([quote.text, quote.author, tags_str])
 
 
 def main(output_csv_path: str) -> None:
