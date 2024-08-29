@@ -19,8 +19,10 @@ class Quote:
 def parse_single_quote(quote_soup: BeautifulSoup) -> Quote:
     return Quote(
         text=quote_soup.select_one(".text").text[1:-1],
-        author=quote_soup.select_one(".author").text,
-        tags=[tag_soup.text for tag_soup in quote_soup.select(".tag")]
+        author=quote_soup.select_one(".author")
+        .text.replace("“", "")
+        .replace("”", ""),
+        tags=[tag_soup.text for tag_soup in quote_soup.select(".tag")],
     )
 
 
