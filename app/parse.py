@@ -5,6 +5,7 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
+
 BASE_URL = "https://quotes.toscrape.com/"
 
 
@@ -14,6 +15,7 @@ class Quote:
     author: str
     tags: list[str]
 
+
 def parse_single_quote(quote_soup: BeautifulSoup) -> Quote:
     return Quote(
         text=quote_soup.select_one(".text").text[1:-1],
@@ -21,9 +23,11 @@ def parse_single_quote(quote_soup: BeautifulSoup) -> Quote:
         tags=[tag_soup.text for tag_soup in quote_soup.select(".tag")]
     )
 
+
 def get_single_page_quotes(page_soup: BeautifulSoup) -> list[Quote]:
     quotes = page_soup.select(".quote")
     return [parse_single_quote(quote) for quote in quotes]
+
 
 def get_all_quotes() -> list[Quote]:
     i = 1
@@ -41,10 +45,12 @@ def get_all_quotes() -> list[Quote]:
         i += 1
     return quotes
 
-def write_quotes_to_csv(quotes: list[Quote], output_csv_path: str):
+
+def write_quotes_to_csv(quotes: list[Quote], output_csv_path: str) -> None:
     with open(output_csv_path, "w", encoding="utf-8") as file:
         write = csv.writer(file)
         write.writerows([astuple(quote) for quote in quotes])
+
 
 def main(output_csv_path: str) -> None:
     quotes = get_all_quotes()
